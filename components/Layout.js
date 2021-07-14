@@ -9,7 +9,7 @@ import Showcase from './Showcase'
 export default function Layout({ title, keywords, description, children }) {
   const router = useRouter()
 
-  return ( 
+  return (
     <div>
       <Head>
         <title>{title}</title>

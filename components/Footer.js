@@ -8,7 +8,6 @@ export default function Footer() {
       <p>
         <Link href='/about'>About This Project</Link>
       </p>
-      <p>ashish</p>
     </footer>
   )
 }

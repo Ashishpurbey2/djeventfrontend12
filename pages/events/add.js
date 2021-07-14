@@ -1,4 +1,4 @@
-// import { parseCookies } from '@/helpers/index'
+import { parseCookies } from '@/helpers/index'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useState } from 'react'
@@ -7,7 +7,6 @@ import Link from 'next/link'
 import Layout from '@/components/Layout'
 import { API_URL } from '@/config/index'
 import styles from '@/styles/Form.module.css'
-import { parseCookies } from '@/helpers/index'
 
 export default function AddEventPage({ token }) {
   const [values, setValues] = useState({
@@ -25,14 +24,15 @@ export default function AddEventPage({ token }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    //validation
+    // Validation
     const hasEmptyFields = Object.values(values).some(
       (element) => element === ''
-    ) //return true or false
+    )
 
     if (hasEmptyFields) {
-      toast.error('please fill in all fields')
+      toast.error('Please fill in all fields')
     }
+
     const res = await fetch(`${API_URL}/events`, {
       method: 'POST',
       headers: {
@@ -41,6 +41,7 @@ export default function AddEventPage({ token }) {
       },
       body: JSON.stringify(values),
     })
+
     if (!res.ok) {
       if (res.status === 403 || res.status === 401) {
         toast.error('No token included')

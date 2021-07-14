@@ -1,9 +1,9 @@
-import Layout from '@/components/Layout'
 import { parseCookies } from '@/helpers/index'
+import { useRouter } from 'next/router'
+import Layout from '@/components/Layout'
+import DashboardEvent from '@/components/DashboardEvent'
 import { API_URL } from '@/config/index'
 import styles from '@/styles/Dashboard.module.css'
-import DashboardEvent from '@/components/DashboardEvent'
-import { useRouter } from 'next/router'
 
 export default function DashboardPage({ events, token }) {
   const router = useRouter()
@@ -16,7 +16,9 @@ export default function DashboardPage({ events, token }) {
           Authorization: `Bearer ${token}`,
         },
       })
+
       const data = await res.json()
+
       if (!res.ok) {
         toast.error(data.message)
       } else {
@@ -26,17 +28,16 @@ export default function DashboardPage({ events, token }) {
   }
 
   return (
-    <div>
-      <Layout title='User Dashboard'>
-        <div className='{styles.dash}'>
-          <h1>Dashboard</h1>
-          <h3>My Events</h3>
-          {events.map((evt) => (
-            <DashboardEvent key={evt.id} evt={evt} handleDelete={deleteEvent} />
-          ))}
-        </div>
-      </Layout>
-    </div>
+    <Layout title='User Dashboard'>
+      <div className={styles.dash}>
+        <h1>Dashboard</h1>
+        <h3>My Events</h3>
+
+        {events.map((evt) => (
+          <DashboardEvent key={evt.id} evt={evt} handleDelete={deleteEvent} />
+        ))}
+      </div>
+    </Layout>
   )
 }
 
@@ -53,6 +54,9 @@ export async function getServerSideProps({ req }) {
   const events = await res.json()
 
   return {
-    props: { events, token },
+    props: {
+      events,
+      token,
+    },
   }
 }
